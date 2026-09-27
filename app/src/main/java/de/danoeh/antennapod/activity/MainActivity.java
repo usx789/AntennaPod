@@ -857,34 +857,14 @@ public class MainActivity extends CastEnabledActivity implements NavigationToolb
         EventBus.getDefault().post(event);
 
         switch (keyCode) {
-            case KeyEvent.KEYCODE_P:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 customKeyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
                 break;
-            case KeyEvent.KEYCODE_J: //Fallthrough
-            case KeyEvent.KEYCODE_A:
-            case KeyEvent.KEYCODE_COMMA:
-                customKeyCode = KeyEvent.KEYCODE_MEDIA_REWIND;
-                break;
-            case KeyEvent.KEYCODE_K: //Fallthrough
-            case KeyEvent.KEYCODE_D:
-            case KeyEvent.KEYCODE_PERIOD:
+            case KeyEvent.KEYCODE_P: // Mini-Remote "Minus" Taste lang drücken
                 customKeyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
                 break;
-            case KeyEvent.KEYCODE_PLUS: //Fallthrough
-            case KeyEvent.KEYCODE_W:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-                        AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
-                return true;
-            case KeyEvent.KEYCODE_MINUS: //Fallthrough
-            case KeyEvent.KEYCODE_S:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-                        AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-                return true;
-            case KeyEvent.KEYCODE_M:
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
-                        AudioManager.ADJUST_TOGGLE_MUTE, AudioManager.FLAG_SHOW_UI);
-                return true;
-            default:
+            case KeyEvent.KEYCODE_N: // Mini-Remote "Plus" Taste lang drücken
+                customKeyCode = KeyEvent.KEYCODE_MEDIA_NEXT;
                 break;
         }
 

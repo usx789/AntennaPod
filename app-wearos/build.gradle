@@ -24,7 +24,7 @@ android {
             enableV2Signing true
             storeFile file(project.getProperties().getOrDefault("releaseStoreFile", "keystore"))
             storePassword project.getProperties().getOrDefault("releaseStorePassword", "password")
-            keyAlias project.getProperties().getOrDefault("releaseKeyAlias", "alias")
+            keyAlias project.getProperties().getOrDefault("releaseKeyAlias", "release-key")
             keyPassword project.getProperties().getOrDefault("releaseKeyPassword", "password")
         }
     }

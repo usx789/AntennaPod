@@ -725,6 +725,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                     return true;
                 }
                 return false;
+            case KeyEvent.KEYCODE_N:
             case KeyEvent.KEYCODE_MEDIA_NEXT:
                 if (!notificationButton) {
                     // Handle remapped button as notification button which is not remapped again.
@@ -734,6 +735,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                     return true;
                 }
                 return false;
+            case KeyEvent.KEYCODE_P:
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                 if (getStatus() == PlayerStatus.PLAYING || getStatus() == PlayerStatus.PAUSED) {
                     mediaPlayer.seekDelta(UserPreferences.getFastForwardSecs() * 1000);
@@ -751,7 +753,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                 return false;
             case KeyEvent.KEYCODE_MEDIA_REWIND:
                 if (getStatus() == PlayerStatus.PLAYING || getStatus() == PlayerStatus.PAUSED) {
-                    mediaPlayer.seekDelta(-UserPreferences.getRewindSecs() * 1000);
+                    mediaPlayer.seekTo(0);
                     return true;
                 }
                 return false;

@@ -220,6 +220,7 @@ public class Media3PlaybackService extends MediaLibraryService {
 
             private void performHardwareButtonAction(int action) {
                 switch (action) {
+                    case KeyEvent.KEYCODE_N:
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                         skipToNextInQueue();
                         break;
@@ -229,6 +230,7 @@ public class Media3PlaybackService extends MediaLibraryService {
                     case KeyEvent.KEYCODE_MEDIA_REWIND:
                         seekBack();
                         break;
+                    case KeyEvent.KEYCODE_P:
                     case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                     default:
                         seekForward();
