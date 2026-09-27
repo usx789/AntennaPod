@@ -725,6 +725,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                     return true;
                 }
                 return false;
+            case KeyEvent.KEYCODE_N:
             case KeyEvent.KEYCODE_MEDIA_NEXT:
                 if (!notificationButton) {
                     // Handle remapped button as notification button which is not remapped again.
@@ -734,6 +735,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                     return true;
                 }
                 return false;
+            case KeyEvent.KEYCODE_P:
             case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
                 if (getStatus() == PlayerStatus.PLAYING || getStatus() == PlayerStatus.PAUSED) {
                     mediaPlayer.seekDelta(UserPreferences.getFastForwardSecs() * 1000);
@@ -751,7 +753,8 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                 return false;
             case KeyEvent.KEYCODE_MEDIA_REWIND:
                 if (getStatus() == PlayerStatus.PLAYING || getStatus() == PlayerStatus.PAUSED) {
-                    mediaPlayer.seekDelta(-UserPreferences.getRewindSecs() * 1000);
+                    //mediaPlayer.seekDelta(-UserPreferences.getRewindSecs() * 1000);
+                    mediaPlayer.seekTo(0);
                     return true;
                 }
                 return false;
@@ -1489,7 +1492,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
         notificationBuilder.setPlayable(playable);
         notificationBuilder.setMediaSessionToken(mediaSession.getSessionToken());
         notificationBuilder.setPlayerStatus(playerStatus);
-        notificationBuilder.updatePosition(getCurrentPosition(), getCurrentPlaybackSpeed());
+        notificationBuilder.updatePosition(getDuration()-getCurrentPosition(), getCurrentPlaybackSpeed());
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)
@@ -1854,7 +1857,7 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                 .subscribe(number -> {
                     EventBus.getDefault().post(new PlaybackPositionEvent(getCurrentPosition(), getDuration()));
                     if (Build.VERSION.SDK_INT < 29) {
-                        notificationBuilder.updatePosition(getCurrentPosition(), getCurrentPlaybackSpeed());
+                        notificationBuilder.updatePosition(getDuration()-getCurrentPosition(), getCurrentPlaybackSpeed());
                         NotificationManager notificationManager = (NotificationManager)
                                 getSystemService(NOTIFICATION_SERVICE);
                         if (ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -1942,13 +1945,13 @@ public class PlaybackService extends MediaBrowserServiceCompat {
         @Override
         public void onSkipToPrevious() {
             Log.d(TAG, "onSkipToPrevious()");
-            seekDelta(-UserPreferences.getRewindSecs() * 1000);
+            mediaPlayer.seekTo(0);
         }
 
         @Override
         public void onRewind() {
             Log.d(TAG, "onRewind()");
-            seekDelta(-UserPreferences.getRewindSecs() * 1000);
+            mediaPlayer.seekTo(0);
         }
 
         public void onNextChapter() {
@@ -2018,9 +2021,9 @@ public class PlaybackService extends MediaBrowserServiceCompat {
                             if (clickCount == 1) {
                                 handleKeycode(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, false);
                             } else if (clickCount == 2) {
-                                onFastForward();
+                                onSkipToNext();
                             } else if (clickCount == 3) {
-                                onRewind();
+                                onFastForward();
                             }
                             clickCount = 0;
                         }, ViewConfiguration.getDoubleTapTimeout());
