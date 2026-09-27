@@ -100,7 +100,7 @@ jobs:
         if: matrix.upload-artifact == true
         with:
           name: app-play-debug.apk
-          path: app/build/outputs/apk/play/debug/app-play-debug.apk
+          path: app/build/outputs/apk/play/debug/-debug.apk
 
   emulator-test:
     name: "Emulator Test API ${{ matrix.version.api-level }} ${{ matrix.version.build-type }}"
@@ -136,7 +136,7 @@ jobs:
           java-version: '21'
       - name: Cache Gradle
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
+        with:app-play
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
